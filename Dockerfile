@@ -15,20 +15,18 @@ ENV GAME_DIR="$HOMEDIR/game" \
 
 EXPOSE 2456-2458/udp
 
-ADD --chown=$USER:$USER scripts/docker-entrypoint.sh /
-ADD --chown=$USER:$USER scripts/start-server.sh /
-
-ARG APT_FLAGS="--yes --no-install-recommends --no-install-suggests"
 RUN apt-get update \
-    && apt-get upgrade $APT_FLAGS \
-    && apt-get install $APT_FLAGS tini \
+    && apt-get install --yes --no-install-recommends --no-install-suggests tini \
     && apt-get autoremove --yes --purge \
     && apt-get clean \
     && apt-get autoclean
 
+ADD --chown=$USER:$USER scripts/docker-entrypoint.sh /
+ADD --chown=$USER:$USER scripts/start-server.sh /
+
 USER "$USER"
-RUN mkdir -p "$GAME_DIR" && mkdir -p "$CONFIG_DIR"
+RUN mkdir -p "$GAME_DIR" && mkdir -p "$CONFIG_DIR" && chmod +x /docker-entrypoint.sh && chmod +x /start-server.sh
 VOLUME [ "$GAME_DIR", "$CONFIG_DIR" ]
 
 # See: https://github.com/docker-library/official-images#init
-ENTRYPOINT [ "tini", "--", "bash", "/docker-entrypoint.sh" ]
+ENTRYPOINT [ "tini", "--", "/docker-entrypoint.sh" ]
