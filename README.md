@@ -5,7 +5,13 @@ I wanted a bare minimum setup that does not contain any fuss.
 
 ## Installation
 
-View the [example `docker-compose.yml` file](docker-compose.yml) for indications on how to install and run this.
+The image can be found at:
+
+```sh
+docker pull ghcr.io/ekman/valheim:1
+```
+
+View the [example `docker-compose.yml` file](docker-compose.yml) for indications on how to install, configure and run this.
 
 ## Configuration
 

@@ -8,9 +8,8 @@ services:
       - "./game:/home/steam/game"
     expose: [ 2456-2458:2456-2458/udp ]
     stop_grace_period: 2m
+    tty: true
     environment:
       - NAME=My server
       - WORLD=Dedicated
-      - PORT=2456
       - PASSWORD=secret
-      - PUBLIC=0
