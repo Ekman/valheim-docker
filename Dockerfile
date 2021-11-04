@@ -1,5 +1,8 @@
 FROM cm2network/steamcmd:root
 
+LABEL org.opencontainers.image.source="https://github.com/Ekman/valheim-docker"
+LABEL org.opencontainers.image.authors="Niklas Ekman <nikl.ekman@gmail.com>"
+
 ENV GAME_DIR="$HOMEDIR/game" \
     CONFIG_DIR="$HOMEDIR/config" \
     GAME_ID="" \
@@ -12,8 +15,10 @@ ENV GAME_DIR="$HOMEDIR/game" \
     PASSWORD="secret" \
     PUBLIC=0
 
-ADD --chown=$USER:$USER docker-entrypoint.sh /
-ADD --chown=$USER:$USER start-server.sh /
+EXPOSE 2456-2458/udp
+
+ADD --chown=$USER:$USER scripts/docker-entrypoint.sh /
+ADD --chown=$USER:$USER scripts/start-server.sh /
 
 # Suppress error about /tmp/dumps not being owned by correct user
 RUN chown -R "$USER":"$USER" /tmp/dumps \
