@@ -17,7 +17,7 @@ View the [example `docker-compose.yml` file](docker-compose.yml) for indications
 
 ### Ports
 
-Open ports 2456, 2457 and 2458 UDP on your router and forward them to the hosting server/computer.
+Open UDP ports 2456, 2457 and 2458 on your router and forward them to the hosting server/computer.
 
 ### Volumes
 
