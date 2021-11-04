@@ -11,20 +11,22 @@ The image can be found at:
 docker pull ghcr.io/ekman/valheim:1
 ```
 
-View the [example `docker-compose.yml` file](docker-compose.yml) for indications on how to install, configure and run this.
-
 ## Configuration
 
-Detailed explanation on how to configure your Valheim server.
+View the [example `docker-compose.yml` file](docker-compose.yml) for indications on how to install, configure and run this.
+
+### Ports
+
+Open ports 2456, 2457 and 2458 UDP on your router and forward them to the hosting server/computer.
 
 ### Volumes
 
-The following interesting volumes/mount points exists:
+Mount all these volumes to your host.
 
-* `/home/steam/config` - Contain all save data
-* `/home/steam/game` - Contains the game files
-
-Mount them both.
+| Directory inside container | Description |
+| --- | --- |
+| `/home/steam/config` | Contains all save data |
+| `/home/steam/game` | Contains the game files |
 
 ### Environment variables
 
@@ -41,7 +43,7 @@ See below for an explanation of environment variables.
 
 ### Updating the game files
 
-The game files will update when starting the container. I recommend adding the following cron job to
+The game files will update when the container starts. I recommend adding the following cron job to
 continuously restart the server:
 
 ```sh
