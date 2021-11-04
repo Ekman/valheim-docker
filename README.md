@@ -9,6 +9,19 @@ View the [example `docker-compose.yml` file](docker-compose.yml) for indications
 
 ## Configuration
 
+Detailed explanation on how to configure your Valheim server.
+
+### Volumes
+
+The following interesting volumes/mount points exists:
+
+* `/home/steam/config` - Contain all save data
+* `/home/steam/game` - Contains the game files
+
+Mount them both.
+
+### Environment variables
+
 See below for an explanation of environment variables.
 
 | Name | Description |
