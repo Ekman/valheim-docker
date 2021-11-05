@@ -17,7 +17,7 @@ View the [example `docker-compose.yml` file](docker-compose.yml) for indications
 
 ### Ports
 
-Open UDP ports 2456, 2457 and 2458 on your router and forward them to the hosting server/computer.
+Open UDP ports `2456`, `2457` and `2458` on your router and forward them to the hosting server/computer.
 
 ### Volumes
 
@@ -34,11 +34,11 @@ See below for an explanation of environment variables.
 
 | Name | Description |
 | --- | --- |
-| NAME | Name appears in the server browser |
-| WORLD | The save files will be named after this |
-| PORT | Open these ports in your router. Recommended leaving as default. |
-| PASSWORD | Users must enter this password to enter your server |
-| PUBLIC | Should be `1` or `0`. If `1` then the server will appear in the server browser |
+| `NAME` | Name appears in the server browser |
+| `WORLD` | The save files will be named after this |
+| `PORT` | Recommended leaving as default |
+| `PASSWORD` | Users must enter this password to enter your server |
+| `PUBLIC` | Should be `1` or `0`. If `1` then the server will appear in the server browser |
 
 
 ### Updating the game files
@@ -47,7 +47,7 @@ The game files will update when the container starts. I recommend adding the fol
 continuously restart the server:
 
 ```sh
-0 4 * * * docker-compose --file /path/to/docker-compose.yml restart valheim
+0 4 * * * /usr/local/bin/docker-compose --file /path/to/docker-compose.yml restart valheim >/dev/null 2>&1
 ```
 
 ## Versioning
@@ -63,5 +63,3 @@ For a complete list of changes, and how to migrate between major versions, see [
 Here are some useful links:
 
 * [Valheim fandom](https://valheim.fandom.com/wiki/Hosting_Servers)
-
-
