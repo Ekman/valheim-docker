@@ -17,7 +17,7 @@ View the [example `docker-compose.yml` file](docker-compose.yml) for indications
 
 ### Ports
 
-Open UDP ports `2456`, `2457` and `2458` on your router and forward them to the hosting server/computer.
+Open UDP ports `2456-2458` on your router and forward them to the hosting server/computer.
 
 ### Volumes
 
@@ -57,9 +57,3 @@ This project only uses the `MAJOR` version part of [Semantic Versioning](https:/
 ## Changelog
 
 For a complete list of changes, and how to migrate between major versions, see [releases page](https://github.com/Ekman/valheim-docker/releases).
-
-## Useful links:
-
-Here are some useful links:
-
-* [Valheim fandom](https://valheim.fandom.com/wiki/Hosting_Servers)
