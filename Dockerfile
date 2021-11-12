@@ -29,4 +29,4 @@ RUN mkdir -p "$GAME_DIR" && mkdir -p "$CONFIG_DIR" && chmod +x /docker-entrypoin
 VOLUME [ "$GAME_DIR", "$CONFIG_DIR" ]
 
 # See: https://github.com/docker-library/official-images#init
-ENTRYPOINT [ "tini", "--", "/docker-entrypoint.sh" ]
+ENTRYPOINT [ "tini", "-v", "--", "/docker-entrypoint.sh" ]
