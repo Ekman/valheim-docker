@@ -2,12 +2,17 @@ version: "3"
 services:
   valheim:
     image: ghcr.io/ekman/valheim:1
+    build:
+      context: .
     restart: unless-stopped
     volumes:
       - "./config:/home/steam/config"
       - "./game:/home/steam/game"
     expose: [ 2456-2458:2456-2458/udp ]
-    stop_grace_period: 2m
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /home/steam/.config
     environment:
       - NAME=My server
       - WORLD=Dedicated
