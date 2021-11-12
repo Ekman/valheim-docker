@@ -30,4 +30,4 @@ ADD --chown=$USER:$USER scripts/start-server.sh /
 VOLUME [ "$GAME_DIR", "$CONFIG_DIR" ]
 
 # See: https://github.com/docker-library/official-images#init
-ENTRYPOINT [ "tini", "-v", "--", "/docker-entrypoint.sh" ]
+ENTRYPOINT [ "tini", "-v", "-e", "143", "--", "/docker-entrypoint.sh" ]
