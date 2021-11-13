@@ -52,7 +52,7 @@ continuously restart the server:
 
 ## Versioning
 
-This project only uses the `MAJOR` version part of [Semantic Versioning](https://semver.org/).
+This project complies with [Semantic Versioning](https://semver.org/).
 
 ## Changelog
 
