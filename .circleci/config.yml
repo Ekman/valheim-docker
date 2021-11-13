@@ -53,6 +53,8 @@ jobs:
       - run:
           name: Push version images
           command: |-
+            git_last_version=$(git describe --tags --abbrev=0)
+
             # Is it a release?
             if [[ "$CIRCLE_BRANCH" == "master" ]]; then
               regex="([0-9]+)\.([0-9]+)\.([0-9]+)"
@@ -70,6 +72,10 @@ jobs:
                   docker push --quiet "$TAG:$version"
                 done
               fi
+            else
+              version="${git_last_version}-beta.${CIRCLE_BUILD_NUM}"
+              docker tag "$TAG" "$TAG:$version"
+              docker push --quiet "$TAG:$version"
             fi
 workflows:
   valheim:
