@@ -86,7 +86,10 @@ workflows:
           context: &context [ GitHubPackages ]
       - push:
           context: *context
-          # requires: [ build ]
+          # filters:
+          #  branches:
+          #    only: [ master ]
+          requires: [ build ]
   valheim-daily:
     triggers:
       - schedule:
