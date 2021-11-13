@@ -78,4 +78,5 @@ workflows:
             branches:
               only: [ master ]
     jobs:
-      -
+      - build
+      - push
