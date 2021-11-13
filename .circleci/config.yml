@@ -44,6 +44,9 @@ jobs:
           name: Load artifact
           command: docker load --input artifacts/valheim.image
       - run:
+          name: Login to GitHub packages
+          command: echo $GITHUB_PACKAGE_TOKEN | docker login --username ekman --password-stdin
+      - run:
           name: Push "latest" image
           command: docker push --quiet "$TAG"
       - run:
