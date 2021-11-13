@@ -37,9 +37,6 @@ jobs:
       TAG: ghcr.io/ekman/valheim
     steps:
       - checkout
-      - run:
-          name: Fetch Git tags
-          command: git fetch --tags
       - setup_remote_docker:
           version: 20.10.7
       - run:
@@ -56,13 +53,11 @@ jobs:
       - run:
           name: Push version images
           command: |-
-            git_last_version=$(git describe --tags --abbrev=0)
-
             # Is it a release?
             if [[ "$CIRCLE_BRANCH" == "master" ]]; then
               regex="([0-9]+)\.([0-9]+)\.([0-9]+)"
 
-              if [[ "$CIRCLE_TAG" =~ $regex ]] || [[ "$git_last_version" =~ $regex ]]; then
+              if [[ "$CIRCLE_TAG" =~ $regex ]]; then
                 # Construct three versions from the semantic version
                 major="${BASH_REMATCH[1]}"
                 minor="${BASH_REMATCH[2]}"
@@ -75,14 +70,10 @@ jobs:
                   docker push --quiet "$TAG:$version"
                 done
               fi
-            else
-              version="${git_last_version}-beta.${CIRCLE_BUILD_NUM}"
-              docker tag "$TAG" "$TAG:$version"
-              docker push --quiet "$TAG:$version"
             fi
 workflows:
   valheim:
-    jobs: &jobs
+    jobs:
       - build:
           context: &context [ GitHubPackages ]
       - approve_push:
@@ -92,17 +83,6 @@ workflows:
               ignore: [ master ]
       - push:
           context: *context
-          # filters:
-          #  branches:
-          #    only: [ master ]
           requires:
             - build
             - approve_push
-  valheim-daily:
-    triggers:
-      - schedule:
-          cron: 0 4 * * *
-          filters:
-            branches:
-              only: [ master ]
-    jobs: *jobs
