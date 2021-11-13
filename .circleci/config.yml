@@ -70,13 +70,17 @@ jobs:
               docker push --quiet "$TAG:$version"
             fi
 workflows:
-  valheim:
+  valheim-daily:
     triggers:
       - schedule:
           cron: 0 4 * * *
           filters:
             branches:
               only: [ master ]
+    jobs:
+      - build
+      - push
+  valheim:
     jobs:
       - build
       - push
