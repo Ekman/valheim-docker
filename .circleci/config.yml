@@ -1,0 +1,81 @@
+version: 2.1
+executors:
+  valheim:
+    docker:
+      - image: cimg/base:stable
+jobs:
+  build:
+    executor: valheim
+    environment:
+      TAG: ghcr.io/ekman/valheim
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build image
+          command: >-
+            mkdir -p artifacts
+            && docker build .
+            --tag "$TAG"
+            --no-cache
+            --pull
+            --quiet
+            && docker save --output artifacts/valheim.image
+      - store_artifacts:
+          path: valheim.image
+      - persist_to_workspace:
+          root: artifacts
+          paths: [ "*" ]
+  push:
+    executor: valheim
+    environment:
+      TAG: ghcr.io/ekman/valheim
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: artifacts
+      - run:
+          name: Load artifact
+          command: docker load --input artifacts/valheim.image
+      - run:
+          name: Push "latest" image
+          command: docker push --quiet "$TAG"
+      - run:
+          name: Push images
+          command: |-
+            # Is it a release?
+            if [[ "$CIRCLE_BRANC" == "master" ]] && [[ -n "$CIRCLE_TAG" ]]; then
+              regex="^(\d+)\.(\d+)\.(\d+)$"
+
+              if [[ "$CIRCLE_TAG" =~ $regex ]]; then
+                # Construct three versions from the semantic version
+                major="${BASH_REMATCH[1]}"
+                minor="${BASH_REMATCH[2]}"
+                patch="${BASH_REMATCH[3]}"
+
+                versions=($major "$major.$minor" "$major.$minor.$patch")
+
+                for version in $versions[@]; do
+                  docker tag "$TAG" "$TAG:$version"
+                  docker push --quiet "$TAG:$version"
+                done
+              else
+                echo "Could not detect version from tag" >&2
+                exit 1
+              fi
+            else
+              git_last_version=$(git describe --tags --abbrev=0)
+              version="${git_last_version}-beta.${CIRCLE_BUILD_NUM}"
+              docker tag "$TAG" "$TAG:$version"
+              docker push --quiet "$TAG:$version"
+            fi
+workflows:
+  valheim:
+    triggers:
+      - schedule:
+          cron: 0 4 * * *
+          filters:
+            branches:
+              only: [ master ]
+    jobs:
+      -
