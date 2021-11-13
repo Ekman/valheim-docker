@@ -76,13 +76,19 @@ workflows:
     jobs:
       - build:
           context: &context [ GitHubPackages ]
+          filters: &filters
+            branches:
+              only: /.*/
+            tags:
+              only: /.*/
       - approve_push:
           type: approval
           filters:
             branches:
-              ignore: [ master ]
+              ignore: master
       - push:
           context: *context
+          filters: *filters
           requires:
             - build
             - approve_push
