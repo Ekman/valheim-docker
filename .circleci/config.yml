@@ -27,7 +27,7 @@ jobs:
             && docker save "$TAG"
             --output artifacts/valheim.image
       - store_artifacts:
-          path: valheim.image
+          path: artifacts/valheim.image
       - persist_to_workspace:
           root: artifacts
           paths: [ "*" ]
