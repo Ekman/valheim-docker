@@ -15,12 +15,15 @@ jobs:
       - run:
           name: Build image
           command: >-
-            mkdir -p artifacts
-            && docker build .
+            docker build .
             --tag "$TAG"
             --no-cache
             --pull
             --quiet
+      - run:
+          name: Save image
+          command: >-
+            mkdir -p artifacts
             && docker save "$TAG"
             --output artifacts/valheim.image
       - store_artifacts:
