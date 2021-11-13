@@ -36,6 +36,7 @@ jobs:
     environment:
       TAG: ghcr.io/ekman/valheim
     steps:
+      - checkout
       - setup_remote_docker:
           version: 20.10.7
       - run:
@@ -70,9 +71,6 @@ jobs:
                   docker tag "$TAG" "$TAG:$version"
                   docker push --quiet "$TAG:$version"
                 done
-              else
-                echo "Could not detect version from tag" >&2
-                exit 1
               fi
             else
               version="${git_last_version}-beta.${CIRCLE_BUILD_NUM}"
@@ -84,12 +82,19 @@ workflows:
     jobs: &jobs
       - build:
           context: &context [ GitHubPackages ]
+      - approve_push:
+          type: approval
+          filters:
+            branches:
+              ignore: [ master ]
       - push:
           context: *context
           # filters:
           #  branches:
           #    only: [ master ]
-          requires: [ build ]
+          requires:
+            - build
+            - approve_push
   valheim-daily:
     triggers:
       - schedule:
