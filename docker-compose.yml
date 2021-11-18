@@ -1,9 +1,7 @@
 version: "3"
 services:
   valheim:
-    # image: ghcr.io/ekman/valheim:1
-    build:
-      context: .
+    image: ghcr.io/ekman/valheim:1
     restart: unless-stopped
     volumes:
       - "./config:/home/steam/config"
