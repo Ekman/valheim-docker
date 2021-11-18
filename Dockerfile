@@ -17,17 +17,17 @@ EXPOSE 2456-2458/udp
 
 RUN apt-get update \
     && apt-get upgrade --yes --no-install-recommends --no-install-suggests \
-    && apt-get install --yes --no-install-recommends --no-install-suggests tini \
+    && apt-get install --yes --no-install-recommends --no-install-suggests tini gosu \
     && apt-get autoremove --yes --purge \
     && apt-get clean \
     && apt-get autoclean \
     && mkdir -p "$GAME_DIR" "$CONFIG_DIR" \
     && chown -R "$USER":"$USER" "$GAME_DIR" "$CONFIG_DIR"
 
-ADD --chown=$USER:$USER scripts/docker-entrypoint.sh /
-ADD --chown=$USER:$USER scripts/start-server.sh /
+ADD --chown="$USER":"$USER" scripts/docker-entrypoint.sh /
+ADD --chown="$USER":"$USER" scripts/start-server.sh /
 
 VOLUME [ "$GAME_DIR", "$CONFIG_DIR" ]
 
 # See: https://github.com/docker-library/official-images#init
-ENTRYPOINT [ "tini", "-v", "-e", "143", "--", "/docker-entrypoint.sh" ]
+ENTRYPOINT [ "tini", "-v", "-e", "143", "--", "bash", "/docker-entrypoint.sh" ]
