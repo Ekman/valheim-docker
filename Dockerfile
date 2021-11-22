@@ -11,7 +11,9 @@ ENV GAME_DIR="$HOMEDIR/game" \
     PORT=2456 \
     PASSWORD="secret" \
     PUBLIC=0 \
-    DEBIAN_FRONTEND="noninteractive"
+    DEBIAN_FRONTEND="noninteractive" \
+    PUID="" \
+    PGID=""
 
 EXPOSE 2456-2458/udp
 
