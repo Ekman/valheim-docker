@@ -8,9 +8,6 @@ services:
       - "./game:/home/steam/game"
     expose: [ 2456-2458:2456-2458/udp ]
     read_only: true
-    tmpfs:
-      - /tmp
-      - /home/steam/.config
     environment:
       - NAME=My server
       - WORLD=Dedicated
