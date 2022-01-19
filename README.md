@@ -28,9 +28,9 @@ Mount all these volumes to your host.
 | `/home/steam/config` | Contains all save data |
 | `/home/steam/game` | Contains the game files |
 
-### Environment variables
+### Configuration
 
-See below for an explanation of environment variables.
+Configure by setting environment variables. See below for an explanation of all available environment variables.
 
 | Name | Description |
 | --- | --- |

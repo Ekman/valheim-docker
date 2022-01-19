@@ -11,23 +11,23 @@ ENV GAME_DIR="$HOMEDIR/game" \
     PORT=2456 \
     PASSWORD="secret" \
     PUBLIC=0 \
-    DEBIAN_FRONTEND="noninteractive"
+    DEBIAN_FRONTEND="noninteractive" \
+    STEAM_CONFIG_DIR="$HOMEDIR/.config"
 
 EXPOSE 2456-2458/udp
 
 RUN apt-get update \
-    && apt-get upgrade --yes --no-install-recommends --no-install-suggests \
     && apt-get install --yes --no-install-recommends --no-install-suggests tini gosu \
     && apt-get autoremove --yes --purge \
     && apt-get clean \
     && apt-get autoclean \
-    && mkdir -p "$GAME_DIR" "$CONFIG_DIR" \
-    && chown -R "$USER":"$USER" "$GAME_DIR" "$CONFIG_DIR"
+    && mkdir -p "$GAME_DIR" "$CONFIG_DIR" "$STEAM_CONFIG_DIR" \
+    && chown -R "$USER":"$USER" "$GAME_DIR" "$CONFIG_DIR" "$STEAM_CONFIG_DIR"
 
 ADD --chown="$USER":"$USER" scripts/docker-entrypoint.sh /
 ADD --chown="$USER":"$USER" scripts/start-server.sh /
 
-VOLUME [ "$GAME_DIR", "$CONFIG_DIR" ]
+VOLUME [ "$GAME_DIR", "$CONFIG_DIR", "$STEAM_CONFIG_DIR" ]
 
 # See: https://github.com/docker-library/official-images#init
 ENTRYPOINT [ "tini", "-v", "-e", "143", "--", "bash", "/docker-entrypoint.sh" ]

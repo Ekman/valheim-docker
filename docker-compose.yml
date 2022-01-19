@@ -2,6 +2,8 @@ version: "3"
 services:
   valheim:
     image: ghcr.io/ekman/valheim:1
+    build:
+      context: .
     restart: unless-stopped
     volumes:
       - "./config:/home/steam/config"
@@ -10,5 +12,5 @@ services:
     read_only: true
     environment:
       - NAME=My server
-      - WORLD=Dedicated
+      - WORLD=My world
       - PASSWORD=secret
