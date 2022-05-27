@@ -21,13 +21,13 @@ RUN apt-get update \
     && apt-get autoremove --yes --purge \
     && apt-get clean \
     && apt-get autoclean \
-    && mkdir -p "$GAME_DIR" "$CONFIG_DIR" "$STEAM_CONFIG_DIR" \
-    && chown -R "$USER":"$USER" "$GAME_DIR" "$CONFIG_DIR" "$STEAM_CONFIG_DIR"
+    && mkdir -p "$GAME_DIR" "$CONFIG_DIR" "$STEAM_CONFIG_DIR" "$HOMEDIR/Steam" \
+    && chown -R "$USER":"$USER" "$GAME_DIR" "$CONFIG_DIR" "$STEAM_CONFIG_DIR" "$HOMEDIR/Steam"
 
 ADD --chown="$USER":"$USER" scripts/docker-entrypoint.sh /
 ADD --chown="$USER":"$USER" scripts/start-server.sh /
 
-VOLUME [ "$GAME_DIR", "$CONFIG_DIR", "$STEAM_CONFIG_DIR" ]
+VOLUME [ "$GAME_DIR", "$CONFIG_DIR", "$STEAM_CONFIG_DIR", "$HOMEDIR/Steam" ]
 
 # See: https://github.com/docker-library/official-images#init
 ENTRYPOINT [ "tini", "-v", "-e", "143", "--", "bash", "/docker-entrypoint.sh" ]
