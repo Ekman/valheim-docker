@@ -11,8 +11,7 @@ ENV GAME_DIR="$HOMEDIR/game" \
     PORT=2456 \
     PASSWORD="secret" \
     PUBLIC=0 \
-    DEBIAN_FRONTEND="noninteractive" \
-    STEAM_CONFIG_DIR="$HOMEDIR/.config"
+    DEBIAN_FRONTEND="noninteractive"
 
 EXPOSE 2456-2458/udp
 
@@ -21,13 +20,13 @@ RUN apt-get update \
     && apt-get autoremove --yes --purge \
     && apt-get clean \
     && apt-get autoclean \
-    && mkdir -p "$GAME_DIR" "$CONFIG_DIR" "$STEAM_CONFIG_DIR" "$HOMEDIR/Steam" \
-    && chown -R "$USER":"$USER" "$GAME_DIR" "$CONFIG_DIR" "$STEAM_CONFIG_DIR" "$HOMEDIR/Steam"
+    && mkdir -p "$GAME_DIR" "$CONFIG_DIR" \
+    && chown -R "$USER":"$USER" "$GAME_DIR" "$CONFIG_DIR"
 
 ADD --chown="$USER":"$USER" scripts/docker-entrypoint.sh /
 ADD --chown="$USER":"$USER" scripts/start-server.sh /
 
-VOLUME [ "$GAME_DIR", "$CONFIG_DIR", "$STEAM_CONFIG_DIR", "$HOMEDIR/Steam" ]
+VOLUME [ "$GAME_DIR", "$CONFIG_DIR", "$HOMEDIR/steamcmd" ]
 
 # See: https://github.com/docker-library/official-images#init
-ENTRYPOINT [ "tini", "-v", "-e", "143", "--", "bash", "/docker-entrypoint.sh" ]
+ENTRYPOINT [ "tini", "-ve", "143", "--", "bash", "/docker-entrypoint.sh" ]
