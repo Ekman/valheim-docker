@@ -7,4 +7,4 @@ gosu "$USER" "$STEAMCMDDIR/steamcmd.sh" \
     validate \
     +quit
 
-gosu "$USER" bash /start-server.sh
+exec gosu "$USER" bash /start-server.sh
