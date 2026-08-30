@@ -16,10 +16,11 @@ ENV GAME_DIR="$HOMEDIR/game" \
 EXPOSE 2456-2458/udp
 
 RUN apt-get update \
-    && apt-get install --yes --no-install-recommends --no-install-suggests tini gosu \
+    && apt-get install --yes --no-install-recommends --no-install-suggests tini gosu libpulse0 libatomic1 \
     && apt-get autoremove --yes --purge \
     && apt-get clean \
     && apt-get autoclean \
+    && rm -rf /var/lib/apt/lists/* \
     && mkdir -p "$GAME_DIR" "$CONFIG_DIR" "$HOMEDIR/.config" \
     && chown -R "$USER":"$USER" "$GAME_DIR" "$CONFIG_DIR" "$HOMEDIR/.config"
 
