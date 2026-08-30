@@ -32,4 +32,4 @@ VOLUME [ "$GAME_DIR", "$CONFIG_DIR", "$HOMEDIR/steamcmd", "$HOMEDIR/.config" ]
 STOPSIGNAL SIGINT
 
 # See: https://github.com/docker-library/official-images#init
-ENTRYPOINT [ "tini", "-ve", "130", "--", "bash", "/docker-entrypoint.sh" ]
+ENTRYPOINT [ "tini", "--", "bash", "/docker-entrypoint.sh" ]
