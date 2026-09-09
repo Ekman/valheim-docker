@@ -1,4 +1,6 @@
-#!/bin/bash -e
+#!/bin/bash
+
+set -euo pipefail
 
 bash "$STEAMCMDDIR/steamcmd.sh" \
     +force_install_dir "$GAME_DIR" \
@@ -7,4 +9,4 @@ bash "$STEAMCMDDIR/steamcmd.sh" \
     validate \
     +quit
 
-exec bash /start-server.sh $@
+exec bash /start-server.sh "$@"

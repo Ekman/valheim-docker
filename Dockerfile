@@ -16,8 +16,8 @@ RUN apt-get update \
     && mkdir -p "$GAME_DIR" "$CONFIG_DIR" "$HOMEDIR/.config" \
     && chown -R "$USER":"$USER" "$GAME_DIR" "$CONFIG_DIR" "$HOMEDIR/.config"
 
-ADD --chown="$USER":"$USER" scripts/docker-entrypoint.sh /
-ADD --chown="$USER":"$USER" scripts/start-server.sh /
+COPY --chown="$USER":"$USER" scripts/docker-entrypoint.sh /
+COPY --chown="$USER":"$USER" scripts/start-server.sh /
 
 VOLUME [ "$GAME_DIR", "$CONFIG_DIR", "$HOMEDIR/steamcmd", "$HOMEDIR/.config", "/tmp" ]
 
