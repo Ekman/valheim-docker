@@ -1,7 +1,6 @@
 # Valheim Docker
 
-Run a [Valheim](https://store.steampowered.com/app/892970/Valheim/) dedicated server using Docker. There are plenty of other solutions out there that has way more features than this.
-I wanted a bare minimum setup.
+Run a [Valheim](https://store.steampowered.com/app/892970/Valheim/) dedicated server using Docker. There are plenty of other solutions out there that has way more features than this. I wanted a bare minimum setup.
 
 For more information on how to run a Valheim dedicated server, see [the official guide](https://www.valheimgame.com/support/a-guide-to-dedicated-servers/).
 
@@ -10,7 +9,7 @@ For more information on how to run a Valheim dedicated server, see [the official
 The image can be found at:
 
 ```sh
-docker pull ghcr.io/ekman/valheim:1
+docker pull ghcr.io/ekman/valheim:2
 ```
 
 ## Configuration
@@ -32,15 +31,30 @@ Mount all these volumes to your host.
 
 ### Configuration
 
-Configure by setting environment variables. See below for an explanation of all available environment variables.
+The Docker container is a wrapper on the Valheim executable. Meaning, any command line arguments that the Valheim executable supports, will the container also support. From the [the official guide](https://www.valheimgame.com/support/a-guide-to-dedicated-servers/):
 
-| Name | Description |
-| --- | --- |
-| `NAME` | Name appears in the server browser |
-| `WORLD` | The save files will be named after this |
-| `PORT` | Recommended leaving as default |
-| `PASSWORD` | Users must enter this password to enter your server |
-| `PUBLIC` | Should be `1` or `0`. If `1` then the server will appear in the server browser |
+| Argument | Default | Description |
+|---|---|---|
+| `-name "My server"` | — | Name of the server as shown in the server list. |
+| `-port 2456` | 2456 | Port the server communicates on. Must match your router's port forwarding. Valheim uses this port **and** port+1 (so 2456–2457). With `-crossplay` no port forwarding is needed, but the port still distinguishes multiple servers sharing one public IP. |
+| `-world "Dedicated"` | — | Creates a world with this name, or loads an existing one with a matching name. |
+| `-password "Secret"` | — | Sets the server password. |
+| `-savedir [PATH]` | Windows: `%USERPROFILE%/AppData/LocalLow/IronGate/Valheim`<br>Linux: `~/.config/unity3d/IronGate/Valheim` | Overrides where worlds and permission files are stored. |
+| `-public 1` | 1 | Server visibility. `1` lists it in the browser; `0` hides it so players must use *Join IP* — useful for LAN servers. |
+| `-logFile "d:\log.txt"` | — | Where to write the log file. |
+| `-saveinterval 1800` | 1800 (30 min) | How often the world saves, in seconds. |
+| `-backups 4` | 4 | How many automatic backups to keep. The first uses the short interval, the rest the long one — by default one backup 2 hours old and three spaced 12 hours apart. |
+| `-backupshort 7200` | 7200 (2 h) | Interval between the first automatic backups. |
+| `-backuplong 43200` | 43200 (12 h) | Interval between subsequent automatic backups. |
+| `-crossplay` | off (Steam backend) | Runs on the Crossplay backend (PlayFab) so players on any platform can join. Without it, only Steam users can see and join. |
+| `-instanceid "1"` | — | Unique identifier per server when hosting multiple servers on the same port from the same MAC address, so each gets its own PlayFab ID. |
+| `-preset hard` | — | Sets a world modifier preset, overwriting any previous modifiers. Valid values: `Normal`, `Casual`, `Easy`, `Hard`, `Hardcore`, `Immersive`, `Hammer`. |
+| `-modifier raids none` | — | Sets an individual world modifier. Place after `-preset` if both are used.<br>`Combat`: veryeasy, easy, hard, veryhard<br>`DeathPenalty`: casual, veryeasy, easy, hard, hardcore<br>`Resources`: muchless, less, more, muchmore, most<br>`Raids`: none, muchless, less, more, muchmore<br>`Portals`: casual, hard, veryhard |
+| `-setkey nomap` | — | Enables a world modifier checkbox. Valid values: `nobuildcost`, `playerevents`, `passivemobs`, `nomap`. |
+
+#### Example
+
+You can see an example of how to run this using Docker compose [here](./docker-compose.yml).
 
 
 ### Updating the game files
