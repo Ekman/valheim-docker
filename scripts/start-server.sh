@@ -1,6 +1,6 @@
 #!/bin/bash
 export LD_LIBRARY_PATH=./linux64:$LD_LIBRARY_PATH
-export SteamAppId="$GAME_ID"
+export SteamAppId=892970
 
 echo "Starting server PRESS CTRL-C to exit"
 
