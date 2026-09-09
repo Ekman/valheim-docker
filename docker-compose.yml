@@ -1,7 +1,6 @@
-version: "3"
 services:
   valheim:
-    image: ghcr.io/ekman/valheim:1
+    image: ghcr.io/ekman/valheim:2
     build:
       context: .
     restart: unless-stopped
@@ -15,3 +14,14 @@ services:
       - WORLD=My world
       - PASSWORD=secret
     stop_grace_period: 2m
+    command:
+      - -name
+      - Foo
+      - -world
+      - Bar
+      - -port
+      - "2465"
+      - -password
+      - abc123
+      - -public
+      - "0"

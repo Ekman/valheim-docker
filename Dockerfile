@@ -1,21 +1,14 @@
 FROM cm2network/steamcmd:root
 
 LABEL org.opencontainers.image.source="https://github.com/Ekman/valheim-docker"
-LABEL org.opencontainers.image.authors="Niklas Ekman <nikl.ekman@gmail.com>"
+LABEL org.opencontainers.image.authors="Niklas Ekman <niklas.ekman1@proton.me>"
 
 ENV GAME_DIR="$HOMEDIR/game" \
     CONFIG_DIR="$HOMEDIR/config" \
-    GAME_ID="896660" \
-    NAME="My server" \
-    WORLD="Dedicated" \
-    PORT=2456 \
-    PASSWORD="secret" \
-    PUBLIC=0
-
-EXPOSE 2456-2458/udp
+    GAME_ID="896660"
 
 RUN apt-get update \
-    && apt-get install --yes --no-install-recommends --no-install-suggests tini gosu libpulse0 libatomic1 libpulse-dev \
+    && apt-get install --yes --no-install-recommends --no-install-suggests tini libpulse0 libatomic1 libpulse-dev \
     && apt-get autoremove --yes --purge \
     && apt-get clean \
     && apt-get autoclean \
@@ -26,9 +19,10 @@ RUN apt-get update \
 ADD --chown="$USER":"$USER" scripts/docker-entrypoint.sh /
 ADD --chown="$USER":"$USER" scripts/start-server.sh /
 
-VOLUME [ "$GAME_DIR", "$CONFIG_DIR", "$HOMEDIR/steamcmd", "$HOMEDIR/.config" ]
+VOLUME [ "$GAME_DIR", "$CONFIG_DIR", "$HOMEDIR/steamcmd", "$HOMEDIR/.config", "/tmp" ]
 
 STOPSIGNAL SIGINT
 
-# See: https://github.com/docker-library/official-images#init
+USER $USER
+
 ENTRYPOINT [ "tini", "--", "bash", "/docker-entrypoint.sh" ]
