@@ -1,7 +1,6 @@
 # Valheim Docker
 
-Run a [Valheim](https://store.steampowered.com/app/892970/Valheim/) dedicated server using Docker. There are plenty of other solutions out there that has way more features than this.
-I wanted a bare minimum setup.
+Run a [Valheim](https://store.steampowered.com/app/892970/Valheim/) dedicated server using Docker. There are plenty of other solutions out there that has way more features than this. I wanted a bare minimum setup.
 
 For more information on how to run a Valheim dedicated server, see [the official guide](https://www.valheimgame.com/support/a-guide-to-dedicated-servers/).
 
