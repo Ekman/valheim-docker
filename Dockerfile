@@ -10,13 +10,12 @@ ENV GAME_DIR="$HOMEDIR/game" \
     WORLD="Dedicated" \
     PORT=2456 \
     PASSWORD="secret" \
-    PUBLIC=0 \
-    DEBIAN_FRONTEND="noninteractive"
+    PUBLIC=0
 
 EXPOSE 2456-2458/udp
 
 RUN apt-get update \
-    && apt-get install --yes --no-install-recommends --no-install-suggests tini gosu libpulse0 libatomic1 \
+    && apt-get install --yes --no-install-recommends --no-install-suggests tini gosu libpulse0 libatomic1 libpulse-dev \
     && apt-get autoremove --yes --purge \
     && apt-get clean \
     && apt-get autoclean \
